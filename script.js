@@ -4,7 +4,7 @@ function getComputerChoice() {
     return moves[Math.floor(Math.random() * 3)];
 }
 
-function game(playerSelection, computerSelection) {
+function playRound(playerSelection, computerSelection) {
     switch (playerSelection.toLowerCase()) {
         case "rock":
             if (computerSelection === "Paper") {
@@ -16,7 +16,6 @@ function game(playerSelection, computerSelection) {
             else {
                 return "Tie (You both chose rock)!";
             }
-            break;
 
         case "paper":
             if (computerSelection === "Scissors") {
@@ -28,11 +27,10 @@ function game(playerSelection, computerSelection) {
             else {
                 return "Tie (You both chose paper)!";
             }
-            break;
 
         case "scissors":
             if (computerSelection === "Rock") {
-                return "You lose (rock beat scissors)!";
+                return "You lose (rock beats scissors)!";
             }
             else if (computerSelection === "Paper") {
                 return "You win (scissors beat paper)!";
@@ -40,6 +38,25 @@ function game(playerSelection, computerSelection) {
             else {
                 return "Tie (You both chose scissors)!";
             }
-            break;
+
+        default:
+            return "Please enter rock, paper, or scissors.";
     }
 }
+
+let scoreUser = 0;
+let scoreComp = 0;
+
+function game() {
+    while (scoreUser < 3 && scoreComp < 3) { // best of 5--this will ignore ties
+        let compSel = getComputerChoice();
+        let playSel = prompt("Rock, Paper, or Scissors?");
+        let result = playRound(playSel, compSel);
+        if (result[4] === 'w') scoreUser++;
+        if (result[4] === 'l') scoreComp++;
+        console.log(result);
+        console.log("The score is now\nUser: " + scoreUser + "\nComputer: " + scoreComp);
+    }
+}
+
+game();
