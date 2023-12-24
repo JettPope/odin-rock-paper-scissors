@@ -47,16 +47,20 @@ function playRound(playerSelection, computerSelection) {
 let scoreUser = 0;
 let scoreComp = 0;
 
-function game() {
-    while (scoreUser < 3 && scoreComp < 3) { // best of 5--this will ignore ties
-        let compSel = getComputerChoice();
-        let playSel = prompt("Rock, Paper, or Scissors?");
-        let result = playRound(playSel, compSel);
-        if (result[4] === 'w') scoreUser++;
-        if (result[4] === 'l') scoreComp++;
-        console.log(result);
-        console.log("The score is now\nUser: " + scoreUser + "\nComputer: " + scoreComp);
-    }
+function game(playSel) {
+    let compSel = getComputerChoice();
+    let result = playRound(playSel, compSel);
+    if (result[4] === 'w') scoreUser++;
+    if (result[4] === 'l') scoreComp++;
+    console.log(result);
+    console.log("The score is now\nUser: " + scoreUser + "\nComputer: " + scoreComp);
 }
 
-game();
+let buttons = document.querySelectorAll("button");
+buttons.forEach(button => {
+    button.addEventListener("click", () => {
+        // only runs when the specific button is clicked
+        // button.id is assigned "rock" "paper" or "scissors" based on which button it is
+        game(button.id)
+    })
+});
