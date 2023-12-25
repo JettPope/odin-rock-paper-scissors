@@ -63,7 +63,7 @@ function game(playSel) {
 
     if (scoreUser >= 5) {
         let winCond = document.createElement("h2");
-        winCond.textContent = "You win!!!";
+        winCond.textContent = "You win!!! Refresh the page to play again!";
         document.querySelector("#currentScore").append(winCond);
         gameOver();
     }
