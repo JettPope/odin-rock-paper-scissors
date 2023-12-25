@@ -47,16 +47,47 @@ function playRound(playerSelection, computerSelection) {
 let scoreUser = 0;
 let scoreComp = 0;
 
-function game() {
-    while (scoreUser < 3 && scoreComp < 3) { // best of 5--this will ignore ties
-        let compSel = getComputerChoice();
-        let playSel = prompt("Rock, Paper, or Scissors?");
-        let result = playRound(playSel, compSel);
-        if (result[4] === 'w') scoreUser++;
-        if (result[4] === 'l') scoreComp++;
-        console.log(result);
-        console.log("The score is now\nUser: " + scoreUser + "\nComputer: " + scoreComp);
+function game(playSel) {
+    let compSel = getComputerChoice();
+    let result = playRound(playSel, compSel);
+    if (result[4] === 'w') scoreUser++;
+    if (result[4] === 'l') scoreComp++;
+
+    // update results and score sections
+    let results = document.querySelector("#results");
+    results.textContent = result;
+    let userScore = document.querySelector("#userScore");
+    userScore.textContent = scoreUser;
+    let compScore = document.querySelector("#compScore");
+    compScore.textContent = scoreComp;
+
+    if (scoreUser >= 5) {
+        let winCond = document.createElement("h2");
+        winCond.textContent = "You win!!!";
+        document.querySelector("#currentScore").append(winCond);
+        gameOver();
+    }
+    else if (scoreComp >= 5) {
+        let winCond = document.createElement("h2");
+        winCond.textContent = "You lose. Try again next time by refreshing the page!";
+        document.querySelector("#currentScore").append(winCond);
+        gameOver();
     }
 }
 
-game();
+function clickHandler(event) {
+    const button = event.target;
+    game(button.id);
+}
+
+let buttons = document.querySelectorAll("button");
+buttons.forEach(button => {
+    button.addEventListener("click", clickHandler);
+});
+
+// remove event listener once the game ends (someone gets 5 points)
+function gameOver() {
+    buttons.forEach(button => {
+        button.removeEventListener("click", clickHandler);
+    });
+}
